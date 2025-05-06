@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const { argv } = require('yargs');
-const w3cjs = require('gulp-w3cjs');
+const htmlValidator = require('gulp-html-validator');
 const through = require('through2');
 const ansi = require('ansi');
 
@@ -22,17 +22,16 @@ gulp.task('w3cjs', (done) => {
 
   return gulp
     .src(htmlfiles)
-    .pipe(w3cjs())
-    .pipe(
-      through.obj((file, enc, cb) => {
+    .pipe(htmlValidator())
+    .pipe(through.obj((file, enc, cb) => {
+      if (!file.htmlValidator.valid) {
         console.log({
           url: file.history[0],
-          ...(!file.w3cjs.success ? { ...file.w3cjs } : {}),
+          messages: file.htmlValidator.messages,
         });
-        cb();
-      })
-    )
-    .pipe(w3cjs.reporter())
+      }
+      cb();
+    }))
     .on('end', () => {
       done();
     });

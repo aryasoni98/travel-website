@@ -10,13 +10,8 @@
   },
   "script": {
     "src": [
-      "src/js/utils.js",
-      "src/js/detector.js",
-      "src/js/**/!(utils | detector  )*.js",
-      "!src/js/theme.js",
-      "src/js/theme.js"
+      "src/js/**/*.js"
     ],
-    
     "dest": "assets/js"
   },
   "pug": {

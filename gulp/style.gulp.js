@@ -1,8 +1,8 @@
 const gulp = require('gulp');
 const rename = require('gulp-rename');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const rtlcss = require('gulp-rtlcss');
-const autoprefixer = require('gulp-autoprefixer');
+let autoprefixer;
 const sourcemaps = require('gulp-sourcemaps');
 const gulpIf = require('gulp-if');
 const clone = require('gulp-clone');
@@ -18,7 +18,11 @@ const getOption = (outputStyle) => ({
 /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 |  SCSS Compile
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-*/
-gulp.task('style', () => {
+gulp.task('style', async () => {
+  if (!autoprefixer) {
+    autoprefixer = (await import('gulp-autoprefixer')).default;
+  }
+
   const sourcemapsStream = gulp.src(paths.style.src).pipe(sourcemaps.init());
 
   const expandedStream = sourcemapsStream

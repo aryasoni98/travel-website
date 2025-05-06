@@ -12,10 +12,5 @@
   "@popperjs": {
     "src": "core/dist/umd/popper.min.js",
     "dest": "@popperjs"
-  },
-
-  "is_js": {
-    "src": "is.min.js",
-    "dest": "is"
   }
 }
